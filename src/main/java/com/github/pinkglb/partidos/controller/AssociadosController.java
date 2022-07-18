@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,6 +25,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.github.pinkglb.partidos.controller.dto.AssociadoDto;
 import com.github.pinkglb.partidos.controller.dto.PartidoDto;
 import com.github.pinkglb.partidos.controller.form.AssociadoForm;
+import com.github.pinkglb.partidos.controller.form.AtualizacaoAssociadoForm;
 import com.github.pinkglb.partidos.modelo.Associado;
 import com.github.pinkglb.partidos.modelo.Partido;
 import com.github.pinkglb.partidos.repository.AssociadoRepository;
@@ -69,6 +71,17 @@ public class AssociadosController {
 			if(optional.isPresent()) {
 				associadoRepository.deleteById(id);
 				return ResponseEntity.ok().build();
+			}
+			return ResponseEntity.notFound().build();
+		}
+		
+		@PutMapping("/{id}")
+		@Transactional
+		public ResponseEntity<AssociadoDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoAssociadoForm form){
+			Optional<Associado> optional = associadoRepository.findById(id);
+			if(optional.isPresent()) {
+				Associado associado = form.atualizar(id, associadoRepository);
+				return ResponseEntity.ok(new AssociadoDto(associado));
 			}
 			return ResponseEntity.notFound().build();
 		}

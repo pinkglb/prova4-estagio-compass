@@ -3,7 +3,6 @@ package com.github.pinkglb.partidos.controller.form;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-
 import com.github.pinkglb.partidos.modelo.Partido;
 import com.github.pinkglb.partidos.repository.PartidoRepository;
 
@@ -42,6 +41,5 @@ public class AtualizacaoPartidoForm {
 		partido.setIdeologia(this.ideologia);
 		
 		return partido;
-		
 	}
 }
